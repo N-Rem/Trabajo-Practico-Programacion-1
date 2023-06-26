@@ -63,7 +63,7 @@ Algoritmo tpProgramacion
 			3:
 			//procedimiento que muestre el stock actual de articulos
 			4:
-			//procedimiento que busca aritculo por codigo
+				busqueda(stock,articulos, 0);//procedimiento que busca aritculo por codigo
 			5:
 			//procedimiento que muestra estadisticas
 			6:
@@ -171,5 +171,33 @@ SubProceso mostrarListaArticulos(stock, fila, columna,inDescripcion) //muestra l
 	Para i <- 0 Hasta fila-1 Con Paso 1 Hacer
 		Escribir "Codigo: ",Stock[i,0], " - Descripcion: ",Stock[i,1]," - Precio Venta: ",Stock[i,2];
 	FinPara
+FinSubProceso
+
+///opcion 4
+SubProceso busqueda(arreglo,dim, columna)/// busqueda por codigo
+	Definir cont, stockActual,totalVendido Como Entero;
+	Definir importeTotal Como Real;
+	Definir codigo como texto;
+	cont = 0;
+	
+	Escribir "Ingrese el codigo del articulo que desea buscar";
+	Leer codigo;
+	Mientras validarCodigo2(codigo) Hacer
+		Escribir "error de ingreso";
+		leer codigo;
+	Fin Mientras
+	
+	Mientras codigo <> arreglo[cont,columna] & cont < dim  Hacer
+		cont = cont +1;
+	FinMientras
+	Si arreglo[cont,columna] == codigo Entonces
+		totalVendido = ConvertirANumero(arreglo[cont,4]) + ConvertirANumero(arreglo[cont,5]);
+		stockActual = ConvertirANumero(arreglo[cont,3]) - totalVendido;
+		importeTotal = totalVendido * ConvertirANumero(arreglo[cont,2]);
+		
+		Escribir "Descripcion: ",arreglo[cont,1],".Precio de venta: $",arreglo[cont,2] ,".Cantidad vendida en primera quincena: ",arreglo[cont,4] ,".Cantidad vendida en segunda quincena: ",arreglo[cont,5] ,".Stock actual: ", stockActual,".Importe total de venta en el mes: $",importeTotal;
+	SiNo
+		Escribir "No existe articulo con el codigo ingresado";
+	Fin Si
 FinSubProceso
 	
