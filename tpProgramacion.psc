@@ -44,36 +44,7 @@ Algoritmo tpProgramacion
 	validarNumero(articulos,1);
 	
 	Dimension stock[articulos,6];
-	
-	Para i<-0 Hasta articulos - 1 Con Paso 1 Hacer
-		Escribir "Ingrese el codigo del", i+1, "º articulo";
-		Leer stock[i,0];
-		Mientras validarCodigo2(stock[i,0]) Hacer
-			Escribir "error de ingreso";
-			leer stock[i,0];
-		FinMientras
-		
-		Escribir "Ingrese la descripción del", i+1, "º articulo";
-		Leer stock[i,1];
-		validarTexto(stock[i,1]);
-		
-		Escribir "Ingrese el precio de venta del", i+1, "º articulo";
-		leer stock[i,2];
-		validarCadenaNum(stock[i,2], 1); ///camiba {i,3} a {i,2};
-		
-		Escribir "Ingrese la cantidad existente del", i+1, "º articulo";
-		Leer stock[i,3];
-		validarCadenaNum(stock[i,3], 0);
-		
-		Escribir "Ingrese la cantidad vendida 1ª quincena del", i+1, "º articulo";
-		Leer stock[i,4];
-		validarCadenaNum(stock[i,4], 0);
-		
-		Escribir "Ingrese la cantidad vendida 2ª quincena del", i+1, "º articulo";
-		Leer stock[i,5];
-		validarCadenaNum(stock[i,5],0);
-	FinPara
-	
+	ingresoDatos(stock,articulos);// ingreso de datos
 	Repetir
 		Escribir "1. Mostrar lista de artículos ordenada por descripción";
 		Escribir "2. Mostrar lista de artículos ordenada por cantidad vendida";
@@ -82,11 +53,6 @@ Algoritmo tpProgramacion
 		Escribir "5. Mostrar estadísticas";
 		Escribir "6. Salir";
 		leer rta;
-	//Mientras rta <> 1 | rta <> 2 | rta <> 3 | rta <> 4 | rta <> 5 | rta <> 6 Hacer ///lo comente porque no me aceptaba la opcion.
-	//	Escribir "Error asdasdas";
-	//	leer rta;
-	//Fin Mientras
-	//Hasta Que rta == 6
 		Segun rta Hacer
 			1:
 			//procedimiento que muestre la lista de articulos ordenada por descripcion
@@ -107,7 +73,41 @@ Algoritmo tpProgramacion
 	FinSegun
 	Hasta Que 6==rta
 FinAlgoritmo
-
+///----------------------------------------------------------------------------
+///----------------- INGRESO DE DATOS -----------------------------------------
+SubProceso ingresoDatos(stock,articulos)
+	Definir i Como Entero;
+	Para i<-0 Hasta articulos - 1 Con Paso 1 Hacer
+		Escribir "Ingrese el codigo del ", i+1, "º articulo";
+		Leer stock[i,0];
+		Mientras validarCodigo2(stock[i,0]) Hacer
+			Escribir "error de ingreso";
+			leer stock[i,0];
+		FinMientras
+		
+		Escribir "Ingrese la descripción del ", i+1, "º articulo";
+		Leer stock[i,1];
+		validarTexto(stock[i,1]);
+		
+		Escribir "Ingrese el precio de venta del ", i+1, "º articulo";
+		leer stock[i,2];
+		validarCadenaNum(stock[i,2], 1); ///camiba {i,3} a {i,2};
+		
+		Escribir "Ingrese la cantidad existente del ", i+1, "º articulo";
+		Leer stock[i,3];
+		validarCadenaNum(stock[i,3], 0);
+		
+		Escribir "Ingrese la cantidad vendida 1ª quincena del ", i+1, "º articulo";
+		Leer stock[i,4];
+		validarCadenaNum(stock[i,4], 0);
+		
+		Escribir "Ingrese la cantidad vendida 2ª quincena del", i+1, "º articulo";
+		Leer stock[i,5];
+		validarCadenaNum(stock[i,5],0);
+	FinPara 
+	
+FinSubProceso
+///----------------------------------------------------------------------------
 
 Funcion  valido <- validarCodigo2(val)
     definir arregloNumero Como Entero;
@@ -115,7 +115,6 @@ Funcion  valido <- validarCodigo2(val)
 	Definir valido como logico;
 	rubro = SubCadena(val,0,2);
 	
-	Escribir  Subcadena(val,0,2);
     si Longitud(val) <> 8 | (rubro <> "100" & rubro <> "300" & rubro <> "450" & rubro <> "680" & rubro <> "720") Entonces
         valido = Verdadero;
     SiNo
