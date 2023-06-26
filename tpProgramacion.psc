@@ -45,6 +45,7 @@ Algoritmo tpProgramacion
 	
 	Dimension stock[articulos,6];
 	ingresoDatos(stock,articulos);// ingreso de datos
+	validarQuincena(stock,articulos);
 	Repetir
 		Escribir "1. Mostrar lista de artículos ordenada por descripción";
 		Escribir "2. Mostrar lista de artículos ordenada por cantidad vendida";
@@ -213,5 +214,24 @@ SubProceso  mostrarStockActual(stock, fila)
 		Escribir "codigo: ", stock[i,0], " - Descripcion: ",stock[i,1],"- Stock Actual: ",ConvertirATexto(sumaQuin);
 	Fin Para
 FinSubProceso
+
+///------------------------------------------------------------------------
+///Valida las quincenas 
+SubProceso validarQuincena(stock, articulo)
+	definir i,sumaQuin como entero;
+	Para i<- 0 Hasta articulo-1 Con Paso 1 Hacer
+		sumaQuin<- ConvertirANumero(stock[i,4]) + ConvertirANumero(stock[i,5]);
+		Mientras (sumaQuin > ConvertirANumero(stock[i,3])) Hacer
+			Escribir "La 1ª quinsena del articulo Numero: ", i+1, ": ",stock[i,1]," - no debe ser mayor al stock.";
+			Escribir "Ingrese nuevamente la cantidad de stock.";
+			Leer stock[i,4];
+			Escribir "La 2ª quinsena del articulo Numero ", i+1, ": ",stock[i,1]," - no debe ser mayor al stock.";
+			Escribir "Ingrese nuevamente la cantidad de stock.";
+			leer stock[i,5];
+			sumaQuin<- ConvertirANumero(stock[i,4]) + ConvertirANumero(stock[i,5]);
+		Fin Mientras
+	Fin Para 
+FinSubProceso
+
 
 
