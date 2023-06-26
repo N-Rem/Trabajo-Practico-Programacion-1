@@ -233,5 +233,43 @@ SubProceso validarQuincena(stock, articulo)
 	Fin Para 
 FinSubProceso
 
-
-
+///------------------------------------------------------------------------------
+///------------------------- MOSTRAR ESTADITAS -------------------------------------
+SubProceso  mostrarEstadisticas(stock,articulos,)
+    Definir contRubro_Tornillos_y_Tuercas Como Entero;
+    Definir contRubro_Adhesivos como entero;
+    Definir contRubro_Herrajes como entero;
+    Definir contRubro_Pinturas Como Entero;
+    Definir contRubro_Electricidad como entero;
+    Definir cantTotal Como Entero;
+    Definir i como entero;
+	
+    contRubro_Tornillos_y_Tuercas=0;
+    contRubro_Adhesivos=0;
+    contRubro_Herrajes=0;
+    contRubro_Pinturas=0;
+    contRubro_Electricidad=0;
+    cantTotal=0;
+    Para i<-0 Hasta articulos-1 Con Paso 1 Hacer
+		Segun SubCadena(stock[i,0],0,2) Hacer
+			"100":
+				contRubro_Tornillos_y_Tuercas = contRubro_Tornillos_y_Tuercas + ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]);
+			"300":
+				contRubro_Adhesivos  = contRubro_Adhesivos  + ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]);
+			"450":
+				contRubro_Herrajes = contRubro_Herrajes + ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]);
+			"680":
+				contRubro_Pinturas  = contRubro_Pinturas  + ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]);
+			"720":
+				contRubro_Electricidad = contRubro_Electricidad + ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]);
+		FinSegun
+        cantTotal= cantTotal + (ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]));
+    FinPara
+    Escribir "Porcentaje de la cantidad de artículos vendidos de cada rubro";
+    Escribir "        Tornillos y Tuercas: %",contRubro_Tornillos_y_Tuercas(100/cantTotal);
+    Escribir "        Adhesivo: %",contRubro_Adhesivos(100/cantTotal);
+    Escribir "        Herrajes: %",contRubro_Herrajes(100/cantTotal);
+    Escribir "        Pinturas: %",contRubro_Pinturas(100/cantTotal);
+    Escribir "        Electricidad: %",contRubro_Electricidad*(100/cantTotal);
+FinSubProceso
+///---------------------------------------------------------------------------------------------
