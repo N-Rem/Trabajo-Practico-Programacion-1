@@ -61,7 +61,8 @@ Algoritmo tpProgramacion
 				ordenar_lista_cantidadVendida(stock,articulos); //procedimiento que muestre la lista de articulos ordenada por cantidad vendida
 				mostrar_lista_cantidadVendida(stock,articulos);
 			3:
-			//procedimiento que muestre el stock actual de articulos
+				//procedimiento que muestre el stock actual de articulos
+				mostrarStockActual(stock, articulos);
 			4:
 				busqueda(stock,articulos, 0);//procedimiento que busca aritculo por codigo
 			5:
@@ -200,4 +201,17 @@ SubProceso busqueda(arreglo,dim, columna)/// busqueda por codigo
 		Escribir "No existe articulo con el codigo ingresado";
 	Fin Si
 FinSubProceso
+
+///----------------------------------------------------------------------
+///Opcion 3 
+
+SubProceso  mostrarStockActual(stock, fila)
+	Definir i,sumaQuin Como Entero;
 	
+	Para i <- 0 Hasta fila-1 Con Paso 1 Hacer
+		sumaQuin<-ConvertirANumero(stock[i,3])-(ConvertirANumero(stock[i,4]) + ConvertirANumero(stock[i,5]));
+		Escribir "codigo: ", stock[i,0], " - Descripcion: ",stock[i,1],"- Stock Actual: ",ConvertirATexto(sumaQuin);
+	Fin Para
+FinSubProceso
+
+
