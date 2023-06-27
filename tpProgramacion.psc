@@ -1,40 +1,5 @@
-///--------------------------- opcion 2 ----------------------------------------------------------
-///----------------- MUESTRA LA LISTA DE ARTICULOS ORDENADA POR CANTIDAD VENDIDA------------------
-SubAlgoritmo mostrar_lista_cantidadVendida(stock,articulos)
-	Definir i,j Como Entero;
-	Definir montoTotal como entero;
-	montoTotal = 0;
-	Escribir " Código   --- Descripción ---  Cantidad vendida "; 
-	Para i<-0 Hasta articulos-1 Con Paso 1 Hacer
-		montoTotal = montoTotal + ConvertirANumero(stock[i,2]) * (ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]));// calcula la cantidad de articulos vendidos por la 1° y 2° quincena y lo mutiplica por el precio del articulo. Luego lo asigna a un contador
-		Escribir Sin Saltar stock[i,0],"  --- ",stock[i,1],"  --- ",(ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]));//  (cantidad vendida 1ª quincena + cantidad vendida 2ª quincena)
-		Escribir "";
-	FinPara
-	Escribir "                             MONTO TOTAL POR VENTAS: $",montoTotal;
-FinSubAlgoritmo
-///----------------- ORDENA LA LISTA DE ARTICULOS POR CANTIDA VEMDIDA -----------------------------
-SubAlgoritmo ordenar_lista_cantidadVendida(stock,articulos)
-	Definir i,j,mayorCantidaVentas como entero;
-	Definir aux como texto;
-	Para i<-0 Hasta articulos-2 Con Paso 1 Hacer
-		mayorCantidaVentas=i;
-		Para j<-i+1 Hasta articulos-1 Con Paso 1 Hacer
-			si (ConvertirANumero(stock[j,4])+ConvertirANumero(stock[j,5]))  >  (ConvertirANumero(stock[mayorCantidaVentas,4])+ConvertirANumero(stock[mayorCantidaVentas,5])) Entonces
-				mayorCantidaVentas=j;
-			FinSi
-		FinPara
-		
-		Para j<-0 Hasta 5 Con Paso 1 Hacer
-			aux=stock[i,j];
-			stock[i,j]=stock[mayorCantidaVentas,j];
-			stock[mayorCantidaVentas,j]=aux;
-		FinPara
-	FinPara
-	
-FinSubAlgoritmo
-///----------------------------------------------------------------------
 
-///----------------- PORGRAMA PRINCIPAL---------------------------------
+///----------------- PROGRAMA PRINCIPAL---------------------------------
 Algoritmo tpProgramacion
 	Definir articulos, rta, i Como Entero;
 	Definir stock, asd como texto;
@@ -47,6 +12,7 @@ Algoritmo tpProgramacion
 	ingresoDatos(stock,articulos);// ingreso de datos
 	validarQuincena(stock,articulos);
 	Repetir
+		Escribir " ";
 		Escribir "1. Mostrar lista de artículos ordenada por descripción";
 		Escribir "2. Mostrar lista de artículos ordenada por cantidad vendida";
 		Escribir "3. Mostrar stock actual de artículos";
@@ -57,17 +23,19 @@ Algoritmo tpProgramacion
 		Segun rta Hacer
 			1:
 			//procedimiento que muestre la lista de articulos ordenada por descripcion
-				mostrarListaArticulos(stock, articulos,5 ,1);
+				ordenarLista(stock,articulos,Falso);
+				mostrarLista(stock, articulos, Falso);
 			2:
-				ordenar_lista_cantidadVendida(stock,articulos); //procedimiento que muestre la lista de articulos ordenada por cantidad vendida
-				mostrar_lista_cantidadVendida(stock,articulos);
+				ordenarLista(stock,articulos,Verdadero); //procedimiento que muestre la lista de articulos ordenada por cantidad vendida
+				mostrarLista(stock, articulos, Verdadero);
 			3:
 				//procedimiento que muestre el stock actual de articulos
 				mostrarStockActual(stock, articulos);
 			4:
 				busqueda(stock,articulos, 0);//procedimiento que busca aritculo por codigo
 			5:
-			//procedimiento que muestra estadisticas
+				//procedimiento que muestra estadisticas
+				mostrarEstadisticas(stock,articulos);
 			6:
 			Escribir "Elijio salir, chau";
 		De Otro Modo:
@@ -83,7 +51,7 @@ SubProceso ingresoDatos(stock,articulos)
 		Escribir "Ingrese el codigo del ", i+1, "º articulo";
 		Leer stock[i,0];
 		Mientras validarCodigo2(stock[i,0]) Hacer
-			Escribir "error de ingreso";
+			Escribir "codigo ingresado incorrecto, vuelva a ingresarlo por favor";
 			leer stock[i,0];
 		FinMientras
 		
@@ -99,11 +67,11 @@ SubProceso ingresoDatos(stock,articulos)
 		Leer stock[i,3];
 		validarCadenaNum(stock[i,3], 0);
 		
-		Escribir "Ingrese la cantidad vendida 1ª quincena del ", i+1, "º articulo";
+		Escribir "Ingrese la cantidad vendida en la 1ª quincena del ", i+1, "º articulo";
 		Leer stock[i,4];
 		validarCadenaNum(stock[i,4], 0);
 		
-		Escribir "Ingrese la cantidad vendida 2ª quincena del", i+1, "º articulo";
+		Escribir "Ingrese la cantidad vendida en la 2ª quincena del ", i+1, "º articulo";
 		Leer stock[i,5];
 		validarCadenaNum(stock[i,5],0);
 	FinPara 
@@ -145,35 +113,53 @@ SubProceso validarTexto(palabra)
 	FinMientras
 FinSubProceso
 
-
-////opcion 1///
-SubProceso ordenarPorCriterio(stock, fila,columna,criterio) ///Ordena la matriz por el criterio dado. fila y columnas totales, sin convertir.
-	definir i,j, ordenar Como Entero;
-	ordenar <- 1;
-	definir aux como cadena; 
-	Mientras ordenar == 1 Hacer
-		ordenar <- 0;
-		Para i <- 0 Hasta fila-2 Con Paso 1 Hacer
-			si (stock[i,criterio] > stock[i+1,criterio]) Entonces
-				ordenar <- 1;
-				
-			    Para j <- 0 Hasta columna Con Paso 1 Hacer
-					aux <- stock[i+1,j];
-					stock[i+1,j] <- stock[i,j];
-					stock[i, j]<- aux;
-				FinPara
-			FinSi
+///opcion 1 y 2
+///----------------------------------------------------------------------------
+///----------------- ORDENAN E IMPRIMEN EL STOCK -----------------------------------------
+SubAlgoritmo ordenarLista(stock,articulos,porVentas)
+	Definir i,j,posicion como entero;
+	Definir aux como texto;
+	Para i<-0 Hasta articulos-2 Con Paso 1 Hacer
+		posicion=i;
+		Para j<-i+1 Hasta articulos-1 Con Paso 1 Hacer
+			Si porVentas Entonces
+				si (ConvertirANumero(stock[j,4])+ConvertirANumero(stock[j,5]))  >  (ConvertirANumero(stock[posicion,4])+ConvertirANumero(stock[posicion,5])) Entonces
+					posicion=j;
+				FinSi
+			SiNo
+				si (stock[j,1] <  stock[posicion,1]) Entonces
+					posicion=j;
+				FinSi
+			Fin Si
+			
 		FinPara
-	FinMientras
-FinSubProceso
-
-SubProceso mostrarListaArticulos(stock, fila, columna,inDescripcion) //muestra lista de las 3 primeras columnas, se le ingresa incides totales.
-	Definir  i, j Como Entero;
-	ordenarPorCriterio(stock,fila,columna, inDescripcion);
-	Para i <- 0 Hasta fila-1 Con Paso 1 Hacer
-		Escribir "Codigo: ",Stock[i,0], " - Descripcion: ",Stock[i,1]," - Precio Venta: ",Stock[i,2];
+		
+		Para j<-0 Hasta 5 Con Paso 1 Hacer
+			aux=stock[i,j];
+			stock[i,j]=stock[posicion,j];
+			stock[posicion,j]=aux;
+		FinPara
 	FinPara
+FinSubAlgoritmo
+
+SubProceso mostrarLista(stock, articulos, conVentas) 
+	Definir  i, j , ventasMes Como Entero;
+	Definir montoTotal Como Real;
+	montoTotal <- 0;
+	Para i <- 0 Hasta articulos -1 Con Paso 1 Hacer
+		Si conVentas Entonces
+			ventasMes = ConvertirANumero(stock[i,4]) +ConvertirANumero(stock[i,5]);
+			montoTotal = montoTotal + ConvertirANumero(stock[i,2]) * ventasMes;
+			Escribir "Codigo: ",Stock[i,0], " - Descripcion: ",Stock[i,1]," - Cantidad Total vendida en el mes: ",ventasMes, " - Importe total venta: $", ventasMes* ConvertirANumero(Stock[i,2]);
+		SiNo
+			Escribir "Codigo: ",Stock[i,0], " - Descripcion: ",Stock[i,1]," - Precio Venta: $",Stock[i,2];
+		Fin Si
+	FinPara
+	Si conVentas Entonces
+		Escribir "Monto total de ventas en el mes: $", montoTotal;
+	Fin Si
 FinSubProceso
+///----------------------------------------------------------------------------
 
 ///opcion 4
 SubProceso busqueda(arreglo,dim, columna)/// busqueda por codigo
@@ -223,10 +209,10 @@ SubProceso validarQuincena(stock, articulo)
 		sumaQuin<- ConvertirANumero(stock[i,4]) + ConvertirANumero(stock[i,5]);
 		Mientras (sumaQuin > ConvertirANumero(stock[i,3])) Hacer
 			Escribir "La 1ª quinsena del articulo Numero: ", i+1, ": ",stock[i,1]," - no debe ser mayor al stock.";
-			Escribir "Ingrese nuevamente la cantidad de stock.";
+			Escribir "Ingrese nuevamente la cantidad vendida en la 1º quincena.";
 			Leer stock[i,4];
 			Escribir "La 2ª quinsena del articulo Numero ", i+1, ": ",stock[i,1]," - no debe ser mayor al stock.";
-			Escribir "Ingrese nuevamente la cantidad de stock.";
+			Escribir "Ingrese nuevamente la cantidad vendida en la 2º quincena.";
 			leer stock[i,5];
 			sumaQuin<- ConvertirANumero(stock[i,4]) + ConvertirANumero(stock[i,5]);
 		Fin Mientras
@@ -234,8 +220,8 @@ SubProceso validarQuincena(stock, articulo)
 FinSubProceso
 
 ///------------------------------------------------------------------------------
-///------------------------- MOSTRAR ESTADITAS -------------------------------------
-SubProceso  mostrarEstadisticas(stock,articulos,)
+///------------------------- MOSTRAR ESTADISTICAS -------------------------------------
+SubProceso  mostrarEstadisticas(stock,articulos)
     Definir contRubro_Tornillos_y_Tuercas Como Entero;
     Definir contRubro_Adhesivos como entero;
     Definir contRubro_Herrajes como entero;
@@ -266,10 +252,10 @@ SubProceso  mostrarEstadisticas(stock,articulos,)
         cantTotal= cantTotal + (ConvertirANumero(stock[i,4])+ConvertirANumero(stock[i,5]));
     FinPara
     Escribir "Porcentaje de la cantidad de artículos vendidos de cada rubro";
-    Escribir "        Tornillos y Tuercas: %",contRubro_Tornillos_y_Tuercas(100/cantTotal);
-    Escribir "        Adhesivo: %",contRubro_Adhesivos(100/cantTotal);
-    Escribir "        Herrajes: %",contRubro_Herrajes(100/cantTotal);
-    Escribir "        Pinturas: %",contRubro_Pinturas(100/cantTotal);
-    Escribir "        Electricidad: %",contRubro_Electricidad*(100/cantTotal);
+    Escribir "        Tornillos y Tuercas: %",trunc(contRubro_Tornillos_y_Tuercas * (100/cantTotal));
+    Escribir "        Adhesivo: %",trunc(contRubro_Adhesivos * (100/cantTotal));
+    Escribir "        Herrajes: %",trunc(contRubro_Herrajes * (100/cantTotal));
+    Escribir "        Pinturas: %",trunc(contRubro_Pinturas * (100/cantTotal));
+    Escribir "        Electricidad: %",trunc(contRubro_Electricidad*(100/cantTotal));
 FinSubProceso
 ///---------------------------------------------------------------------------------------------
