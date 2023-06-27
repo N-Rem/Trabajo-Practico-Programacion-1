@@ -171,11 +171,11 @@ SubProceso busqueda(arreglo,dim, columna)/// busqueda por codigo
 	Escribir "Ingrese el codigo del articulo que desea buscar";
 	Leer codigo;
 	Mientras validarCodigo2(codigo) Hacer
-		Escribir "error de ingreso";
+		Escribir "codigo ingresado incorrecto, vuelva a ingresarlo por favor";
 		leer codigo;
 	Fin Mientras
 	
-	Mientras codigo <> arreglo[cont,columna] & cont < dim  Hacer
+	Mientras codigo <> arreglo[cont,columna] & cont < dim -1  Hacer
 		cont = cont +1;
 	FinMientras
 	Si arreglo[cont,columna] == codigo Entonces
