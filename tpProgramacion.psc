@@ -310,13 +310,14 @@ FinSubProceso
 
 SubProceso rubroMayorImporteVentaQuincena(stock, articulos)
 	definir i, j como entero;
-	Definir rubro, mayorImporte como real;
+	Definir mayorImporte como real;
+	Definir rubro como cadena;
 	mayorImporte <- 0;
-	rubro <- 0; ///----->agregue la inicialisacion de rubro porque sino daba error.
 	
 	para i <- 0 hasta articulos - 1 Con Paso 1 Hacer
         Si ((ConvertirANumero(stock[i, 4]) + ConvertirANumero(stock[i, 5])) * ConvertirANumero(stock[i, 2])) > mayorImporte Entonces
             mayorImporte <- ((ConvertirANumero(stock[i, 4]) + ConvertirANumero(stock[i, 5])) * ConvertirANumero(stock[i, 2]));
+			rubro <- SubCadena(stock[i,0],0,2);
         FinSi
 	FinPara
 	
