@@ -102,21 +102,21 @@ Funcion  valido <- validarCodigo2(val)
     FinSi
 FinFuncion
 ////copiaSub numero para que valide numeros enteros y no numeors cadena. 
-SubProceso validarNumero(val, mayorA)
+SubProceso validarNumero(val Por Referencia, mayorA)
 	Mientras val < mayorA Hacer
 		Escribir "Error, vuelva a ingresar el numero";
         Leer  val;
 	FinMientras
 FinSubProceso
 
-SubProceso validarCadenaNum(val, mayorA)
+SubProceso validarCadenaNum(val Por Referencia, mayorA)
 	Mientras ConvertirANumero(val) < mayorA Hacer
 		Escribir "Error, vuelva a ingresar el numero";
         Leer  val;
 	FinMientras
 FinSubProceso
 
-SubProceso validarTexto(palabra)
+SubProceso validarTexto(palabra Por Referencia)
 	Mientras Longitud(palabra) == 0 Hacer
 		Escribir "Error, vuelva a ingresar la descripcion";
         Leer  palabra;
@@ -175,29 +175,32 @@ FinSubProceso
 SubProceso busqueda(arreglo,dim, columna)/// busqueda por codigo
 	Definir cont, stockActual,totalVendido Como Entero;
 	Definir importeTotal Como Real;
-	Definir codigo como texto;
+	Definir codigo,continuar como texto;
 	cont = 0;
 	
-	Escribir "Ingrese el codigo del articulo que desea buscar";
-	Leer codigo;
-	Mientras validarCodigo2(codigo) Hacer
-		Escribir "El codigo ingresado es incorrecto, por favor vuelva a ingresar el codigo";
-		leer codigo;
-	Fin Mientras
-	
-	Mientras codigo <> arreglo[cont,columna] & cont < dim - 1  Hacer
-		cont = cont +1;
-	FinMientras
-	Si arreglo[cont,columna] == codigo Entonces
-		totalVendido = ConvertirANumero(arreglo[cont,4]) + ConvertirANumero(arreglo[cont,5]);
-		stockActual = ConvertirANumero(arreglo[cont,3]) - totalVendido;
-		importeTotal = totalVendido * ConvertirANumero(arreglo[cont,2]);
-		
-		Escribir "Descripcion: ",arreglo[cont,1],".Precio de venta: $",arreglo[cont,2] ,".Cantidad vendida en primera quincena: ",arreglo[cont,4] ,".Cantidad vendida en segunda quincena: ",arreglo[cont,5] ,".Stock actual: ", stockActual,".Importe total de venta en el mes: $",importeTotal;
-	SiNo
-		Escribir "No existe articulo con el codigo ingresado";
-	Fin Si
+	Repetir
+		Escribir "Ingrese el codigo del articulo que desea buscar";
+		Leer codigo;
+		cont = 0;
+		Mientras codigo <> arreglo[cont,columna] & cont < dim -1  Hacer
+			cont = cont +1;
+		FinMientras
+		Si arreglo[cont,columna] == codigo Entonces
+			totalVendido =  sumaQuinsena_1y2(arreglo,cont);
+			stockActual = ConvertirANumero(arreglo[cont,3]) - totalVendido;
+			importeTotal = totalVendido * ConvertirANumero(arreglo[cont,2]);
+			Escribir "Descripcion: ",arreglo[cont,1]," - Precio de venta: $",arreglo[cont,2] ," - Cantidad vendida en primera quincena: ",arreglo[cont,4] ," - Cantidad vendida en segunda quincena: ",arreglo[cont,5] ," - Stock actual: ", stockActual," - Importe total de venta en el mes: $",importeTotal;
+		SiNo
+			Escribir "No existe articulo con el codigo ingresado";
+		FinSi
+		Repetir
+			Escribir "¿Desea buscar otro articulo?	si/no";
+			Leer continuar;
+		Mientras Que continuar<>"no" y  continuar<>"si"
+	Mientras Que continuar<>"no"
 FinSubProceso
+
+///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
 ///Opcion 3 
