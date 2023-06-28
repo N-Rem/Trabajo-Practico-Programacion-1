@@ -182,7 +182,7 @@ SubProceso busqueda(arreglo,dim, columna)/// busqueda por codigo
 	Escribir "Ingrese el codigo del articulo que desea buscar";
 	Leer codigo;
 	Repetir
-		Mientras codigo <> arreglo[cont,columna] & cont < dim  Hacer
+		Mientras codigo <> arreglo[cont,columna] & cont < dim -1  Hacer
 			cont = cont +1;
 		FinMientras
 		Si arreglo[cont,columna] == codigo Entonces
